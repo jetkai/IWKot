@@ -5,6 +5,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### Properties which contains sensitive data ###
+*.properties
+
 ### STS ###
 .apt_generated
 .classpath
