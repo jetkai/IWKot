@@ -4,7 +4,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 /**
- * Author: Kai
+ * Mw2ServerKtApplication
+ *
+ * Main class for the Spring Boot Application
+ *
+ * @author Kai
+ * @version 1.0, 19/04/2022
  */
 @SpringBootApplication
 class Mw2ServerKtApplication

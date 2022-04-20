@@ -5,7 +5,12 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 /**
- * Author: Kai
+ * PlayerRepository
+ *
+ * Uses CrudRepository interface to run query's on the MariaDB
+ *
+ * @author Kai
+ * @version 1.0, 19/04/2022
  */
 @Repository("PlayerRepository")
 interface PlayerRepository : CrudRepository<PlayerEntity, String> {

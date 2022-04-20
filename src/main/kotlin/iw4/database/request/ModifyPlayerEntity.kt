@@ -6,7 +6,15 @@ import iw4.utils.Misc
 import org.springframework.dao.EmptyResultDataAccessException
 
 /**
- * Author: Kai
+ * ModifyPlayerEntity Class
+ *
+ * Communicates with MariaDB through CrudRepository interface
+ * @see update
+ * @see getPlayerEntity
+ * @see getDefaultTemplate
+ *
+ * @author Kai
+ * @version 1.0, 19/04/2022
  */
 class ModifyPlayerEntity(private var playerRepository : PlayerRepository) {
 

@@ -4,7 +4,12 @@ import java.sql.Timestamp
 import javax.persistence.*
 
 /**
- * Author: Kai
+ * Entities
+ *
+ * Serializer/Deserializer placeholder
+ *
+ * @author Kai
+ * @version 1.0, 19/04/2022
  */
 @Entity
 @Table(name = "mw2_welcome", schema = "localdb")
