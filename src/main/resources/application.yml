@@ -1,0 +1,67 @@
+config:
+  name: Mw2 Dedicated Server
+  ips:
+    - '127.0.0.1:28960'
+    - '127.0.0.1:28961'
+    - '127.0.0.1:28962'
+    - '127.0.0.1:28963'
+    - '127.0.0.1:28964'
+    - '127.0.0.1:28965'
+    - '127.0.0.1:28966'
+    - '127.0.0.1:28967'
+
+api:
+  keys:
+    - name: oilrig
+      key: <HIDDEN FROM GITHUB>
+    - name: highrise
+      key: <HIDDEN FROM GITHUB>
+
+server:
+  http2:
+    enabled: false
+  port: '28600'
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+      enabled: true
+      location: '${java.io.tmpdir}'
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
+  datasource:
+    url: 'jdbc:mariadb://localhost:3306/localdb?useUnicode'
+    username: root
+    password: <HIDDEN FROM GITHUB>
+    tomcat:
+      connection-properties: useUnicode
+    driver-class-name: org.mariadb.jdbc.Driver
+    testWhileIdle: true
+    validationQuery: SELECT 1
+
+  jpa:
+    show-sql: true
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        physical-strategy: >-
+          org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+
+'!spring':
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

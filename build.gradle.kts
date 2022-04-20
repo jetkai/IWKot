@@ -17,6 +17,10 @@ repositories {
 }
 
 dependencies {
+    //JUnit 5
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+
     //Required for Spring Web
     implementation("org.springframework.boot:spring-boot-starter-security:2.6.6")
     implementation("org.springframework.boot:spring-boot-starter-web:2.6.6")
@@ -27,6 +31,7 @@ dependencies {
 
     //Required for Serializing/Deserializing
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.2")
 
     //Required for Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -38,6 +43,8 @@ dependencies {
 
     //Required for MariaDB driver
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.0.4")
+
+    compileOnly("org.springframework.boot:spring-boot-configuration-processor:2.6.6")
 }
 
 tasks.withType<KotlinCompile> {
