@@ -23,7 +23,7 @@ interface PlayerRepository : CrudRepository<PlayerEntity, String> {
 
     fun getByLastSeenAfter(time : Date) : List<PlayerEntity>
 
-    fun getByNameAndGuid(name : String, guid : String) : PlayerEntity
+    fun getByUsernameAndGuid(name : String, guid : String) : PlayerEntity
 
 /*    @Modifying
     @Transactional

@@ -4,6 +4,7 @@ import iw4.database.PlayerEntity
 import iw4.database.PlayerRepository
 import iw4.utils.Misc
 import org.springframework.dao.EmptyResultDataAccessException
+import java.sql.SQLSyntaxErrorException
 
 /**
  * ModifyPlayerEntity Class
@@ -32,8 +33,10 @@ class ModifyPlayerEntity(private var playerRepository : PlayerRepository) {
     //Returns the PlayerEntity
     fun getPlayerEntity(name : String, guid : String) : PlayerEntity {
         return try { //Checks if exists in DB
-            playerRepository.getByNameAndGuid(name, guid)
+            playerRepository.getByUsernameAndGuid(name, guid)
         } catch (e : EmptyResultDataAccessException) { //Returns the default template if player doesn't exist in DB
+            getDefaultTemplate(name, guid)
+        } catch (sql : SQLSyntaxErrorException) {
             getDefaultTemplate(name, guid)
         }
     }
@@ -43,7 +46,7 @@ class ModifyPlayerEntity(private var playerRepository : PlayerRepository) {
         val welcomeEntity = PlayerEntity()
 
         welcomeEntity.id = 0
-        welcomeEntity.name = name
+        welcomeEntity.username = name
         welcomeEntity.guid = guid
         welcomeEntity.connections = 0
         welcomeEntity.firstSeen = currentTime

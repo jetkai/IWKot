@@ -33,18 +33,20 @@
 ```sql
 create table mw2_welcome
 (
-id int default 0 not null,
-name varchar(64) not null,
-guid varchar(128) not null,
-firstSeen datetime not null,
-lastSeen datetime not null,
-connections int default 0 not null,
-lastMapName varchar(32) not null,
-lastServerPort int(5) not null,
-constraint mw2_welcome_id_uindex
-unique (id)
+    id int default 0 not null,
+    username varchar(64) not null,
+    guid varchar(128) not null,
+    first_seen datetime not null,
+    last_seen datetime not null,
+    connections int default 0 not null,
+    last_map_name varchar(32) not null,
+    last_server_port int not null,
+    constraint mw2_welcome_guid_uindex
+        unique (guid),
+    constraint mw2_welcome_id_uindex
+        unique (id)
 );
 
 alter table mw2_welcome
-add primary key (id);
+    add primary key (id);
 ```

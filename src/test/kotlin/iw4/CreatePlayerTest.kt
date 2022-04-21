@@ -39,13 +39,14 @@ class CreatePlayerTest {
 
     fun buildTestEntity() : PlayerEntity {
         val player = PlayerEntity()
-        player.name = "Kai Test"
+        player.username = "Kai Test"
         player.guid = "kaitestguid123456"
         player.lastServerPort = 28960
         player.lastMapName = "oilrig"
         return player
     }
 
+    //Example Final: http://localhost:28600/api/servers/oilrig/join?name=Kai%20Test&guid=kaitestguid123456&port=28960
     fun buildTestUrl(server : ServerProperties, player : PlayerEntity): URI {
         return UriComponentsBuilder.newInstance()
             .scheme("http") //HTTP for local testing
@@ -53,7 +54,7 @@ class CreatePlayerTest {
             .path("api/servers")
             .path("/").path(player.lastMapName!!)
             .path("/").path("join")
-            .queryParam("name", player.name)
+            .queryParam("name", player.username)
             .queryParam("guid", player.guid)
             .queryParam("port", player.lastServerPort)
             .build().toUri()

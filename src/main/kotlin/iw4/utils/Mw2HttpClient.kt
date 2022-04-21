@@ -19,6 +19,7 @@ class Mw2HttpClient(private val uri : URI, private val apiKey : String) {
     private val builder = buildHeaders()
 
     fun requestBody() : String {
+        println("URI: $uri")
         val request = builder.uri(uri).build()
         return client.send(request, HttpResponse.BodyHandlers.ofString()).body()
     }
