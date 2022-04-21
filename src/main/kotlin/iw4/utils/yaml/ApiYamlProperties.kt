@@ -5,6 +5,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties("api")
-data class ApiYamlProperties(val keys : List<ApiKeyProperties>)
+data class ApiYamlProperties(val servers : List<ServerProperties>)
 
-data class ApiKeyProperties(val name : String, val key : String)
+data class ServerProperties(val name : String, val ip : String, val port : Int, val key : String)

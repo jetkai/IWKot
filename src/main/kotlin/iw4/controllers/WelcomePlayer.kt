@@ -33,7 +33,7 @@ class WelcomePlayer(var playerRepository : PlayerRepository) {
      * @return 200 - OK (in plaintext)
      * @throws 417 - FAILED TO SAVE PLAYER (in plaintext)
      */
-    @RequestMapping(value = ["/api/servers/{mapName}/join"], produces = ["text/plain; charset=utf-8"], method = [RequestMethod.POST])
+    @RequestMapping(value = ["/api/servers/{mapName}/join"], produces = ["text/plain; charset=utf-8"], method = [RequestMethod.GET])
     fun onPlayerJoin(@PathVariable mapName : String,
                      @RequestParam(value = "name", required = true, defaultValue = "") name : String,
                      @RequestParam(value = "guid", required = true, defaultValue = "") guid : String,

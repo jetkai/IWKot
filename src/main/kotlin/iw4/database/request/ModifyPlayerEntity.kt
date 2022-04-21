@@ -19,7 +19,6 @@ import org.springframework.dao.EmptyResultDataAccessException
 class ModifyPlayerEntity(private var playerRepository : PlayerRepository) {
 
     fun update(player : PlayerEntity, mapName : String, port : Int) {
-
         //Attributes to modify
         player.lastSeen = Misc.getLocalDateAsTimestamp()
         player.connections = player.connections?.plus(1)
@@ -34,16 +33,16 @@ class ModifyPlayerEntity(private var playerRepository : PlayerRepository) {
     fun getPlayerEntity(name : String, guid : String) : PlayerEntity {
         return try { //Checks if exists in DB
             playerRepository.getByNameAndGuid(name, guid)
-        } catch (e: EmptyResultDataAccessException) { //Returns the default template if player doesn't exist in DB
+        } catch (e : EmptyResultDataAccessException) { //Returns the default template if player doesn't exist in DB
             getDefaultTemplate(name, guid)
         }
     }
 
     private fun getDefaultTemplate(name : String, guid : String) : PlayerEntity {
         val currentTime = Misc.getLocalDateAsTimestamp()
-
         val welcomeEntity = PlayerEntity()
 
+        welcomeEntity.id = 0
         welcomeEntity.name = name
         welcomeEntity.guid = guid
         welcomeEntity.connections = 0

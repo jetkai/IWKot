@@ -1,7 +1,6 @@
 package iw4
 
 import iw4.utils.yaml.ApiYamlProperties
-import iw4.utils.yaml.ConfigYamlProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
@@ -19,7 +18,7 @@ import org.springframework.boot.runApplication
 //@EnableConfigurationProperties
 //@ConfigurationPropertiesScan
 @SpringBootApplication
-@EnableConfigurationProperties(ConfigYamlProperties::class, ApiYamlProperties::class)
+@EnableConfigurationProperties(ApiYamlProperties::class)
 class Mw2ServerKtApplication
 
 fun main(args: Array<String>) {
