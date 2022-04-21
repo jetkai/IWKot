@@ -22,6 +22,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             //.antMatchers("/admin/**").hasRole("ADMIN")
             //.antMatchers("/anonymous*").anonymous()
             .antMatchers("/api/servers/*/*").permitAll() //Allow anything beyond the API Dir
+            .antMatchers("/api/servers/list").permitAll()
             .anyRequest().authenticated()
             .and()
     }

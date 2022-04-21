@@ -22,8 +22,8 @@ class PlayerEntityOnMap(private var playerRepository : PlayerRepository) {
     }
 
     //Returns list of players who joined the map within the past minute
-    fun listPlayersByRecentMapJoin() : List<PlayerEntity>  {
-        val timestamp = Misc.getLocalDateAsTimestamp()
+    fun listPlayersByRecentMapJoin(byMinute : Long) : List<PlayerEntity>  {
+        val timestamp = Misc.getLocalDateAsTimestamp(byMinute)
         return playerRepository.getByLastSeenAfter(timestamp)
     }
 

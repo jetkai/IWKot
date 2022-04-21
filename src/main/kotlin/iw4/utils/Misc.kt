@@ -23,7 +23,7 @@ object Misc {
         return Timestamp.valueOf(date)
     }
 
-    fun getLocalDateAsTimestamp(minusMinutes: Long): Timestamp? {
+    fun getLocalDateAsTimestamp(minusMinutes: Long): Timestamp {
         val date = LocalDateTime.now().minusMinutes(minusMinutes)
         return Timestamp.valueOf(date)
     }

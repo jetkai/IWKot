@@ -3,9 +3,11 @@ package iw4.controllers
 import iw4.database.PlayerRepository
 import iw4.database.request.ModifyPlayerEntity
 import iw4.database.request.PlayerEntityOnMap
+import iw4.utils.yaml.ApiYamlProperties
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 /**
  * WelcomePlayer Class
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.*
  * @version 1.0, 19/04/2022
  */
 @RestController
-class WelcomePlayer(var playerRepository : PlayerRepository) {
+class WelcomePlayer(var playerRepository : PlayerRepository, var properties : ApiYamlProperties) {
 
     /**
      * This function will modify/update the Player within the SQL Database
@@ -33,15 +35,26 @@ class WelcomePlayer(var playerRepository : PlayerRepository) {
      * @return 200 - OK (in plaintext)
      * @throws 417 - FAILED TO SAVE PLAYER (in plaintext)
      */
-    @RequestMapping(value = ["/api/servers/{mapName}/join"], produces = ["text/plain; charset=utf-8"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/api/servers/{mapName}/join"],
+        produces = ["text/plain; charset=utf-8"], method = [RequestMethod.GET])
     fun onPlayerJoin(@PathVariable mapName : String,
                      @RequestParam(value = "name", required = true, defaultValue = "") name : String,
                      @RequestParam(value = "guid", required = true, defaultValue = "") guid : String,
-                     @RequestParam(value = "port", required = true, defaultValue = "") port : String) : ResponseEntity<Any> {
+                     @RequestParam(value = "port", required = true, defaultValue = "") port : String,
+                     request : HttpServletRequest) : ResponseEntity<Any> {
 
         //Return if fields are empty, do not proceed with DB functions
         if(name.isEmpty() || guid.isEmpty() || port.isEmpty())
             return ResponseEntity<Any>("400 - BAD REQUEST", HttpStatus.BAD_REQUEST)
+
+        if(!properties.debug) { //Security -> preventing bad clients from connecting
+            val requestKey = request.getHeader("x-crpyt-key")
+            val userAgent = request.getHeader("User-Agent")
+            val verifiedServer = properties.servers.filter { it.key == requestKey }
+
+            if (verifiedServer.isEmpty() || !userAgent.equals("Mw2-Server/1.0"))
+                return ResponseEntity<Any>("401 - UNAUTHORIZED", HttpStatus.UNAUTHORIZED)
+        }
 
         //Checks if player exists in database to modify existing data, otherwise creates them
         val modifyPlayerEntity = ModifyPlayerEntity(playerRepository) //TODO - Maybe make this local to class
@@ -79,16 +92,16 @@ class WelcomePlayer(var playerRepository : PlayerRepository) {
      * (GSC can only parse CSV/Plain-Text)
      * @since version 1.0
      *
-     * @param isRecent Returns players who were on the server within the last minute
+     * @param recent Returns players who were on the server within the last <*> minutes
      * @return List of players (as CSV)
      */
-    @RequestMapping(value = ["/api/servers/listPlayers"], produces = ["text/plain; charset=utf-8"], method = [RequestMethod.GET])
-    fun onServerListPlayers(@RequestParam(value = "recent", required = false, defaultValue = "false") isRecent : Boolean): ResponseEntity<Any> {
+    @RequestMapping(value = ["/api/servers/list"], produces = ["application/json"], method = [RequestMethod.GET])
+    fun onServerListPlayers(@RequestParam(value = "recent", required = false, defaultValue = "0") recent : Long): ResponseEntity<Any> {
         val playerEntityOnMap = PlayerEntityOnMap(playerRepository) //TODO - Maybe make this local to class
 
-        //Returns a list of players who have connected within the past minute
-        if(isRecent) {
-            val players = playerEntityOnMap.listPlayersByRecentMapJoin()
+        //Returns a list of players who have connected within the past @param recent minutes
+        if(recent > 0) {
+            val players = playerEntityOnMap.listPlayersByRecentMapJoin(recent)
             return ResponseEntity<Any>(players, HttpStatus.OK)
         }
 
