@@ -35,8 +35,10 @@ class ModifyPlayerEntity(private var playerRepository : PlayerRepository) {
         return try { //Checks if exists in DB
             playerRepository.getByUsernameAndGuid(name, guid)
         } catch (e : EmptyResultDataAccessException) { //Returns the default template if player doesn't exist in DB
+            println(e.message)
             getDefaultTemplate(name, guid)
-        } catch (sql : SQLSyntaxErrorException) {
+        } catch (sql : SQLSyntaxErrorException) { //This is bad, should not get here!
+            println(sql.message)
             getDefaultTemplate(name, guid)
         }
     }

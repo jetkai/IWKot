@@ -2,7 +2,7 @@ package iw4
 
 import iw4.database.PlayerEntity
 import iw4.utils.Mw2HttpClient
-import iw4.utils.yaml.ApiYamlProperties
+import iw4.utils.yaml.ApiProperties
 import iw4.utils.yaml.ServerProperties
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,12 +10,20 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.URI
 
+/**
+ * CreatePlayerTest
+ *
+ * Test class for calling the mapped function which registers player creation
+ *
+ * @author Kai
+ * @version 1.0, 20/04/2022
+ */
 @SpringBootTest(classes = [Mw2ServerKtApplication::class]
 /*, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT*/)
 class CreatePlayerTest {
 
     @Autowired
-    lateinit var properties : ApiYamlProperties
+    lateinit var properties : ApiProperties
 
    /* //Resources path
     private val resourcePath = this::class.java.getResource("")?.path
@@ -27,14 +35,15 @@ class CreatePlayerTest {
 
     @Test
     fun contextLoads() {
-        val servers = properties.servers
+        val server = properties.servers.first() //{ it.port == player.lastServerPort }
 
         val player = buildTestEntity()
-        val server = servers.first { it.port == player.lastServerPort }
         val destination = buildTestUrl(server, player)
-        val mw2HttpClient = Mw2HttpClient(destination, server.key)
 
-        println(mw2HttpClient.requestBody())
+        val mw2HttpClient = Mw2HttpClient(destination, server.hash)
+        val response = mw2HttpClient.requestBody()
+
+        assert(response == "200 - OK")
     }
 
     fun buildTestEntity() : PlayerEntity {

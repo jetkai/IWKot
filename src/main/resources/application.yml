@@ -1,21 +1,20 @@
-config:
-  name: Mw2 Dedicated Server
-  ips:
-    - '127.0.0.1:28960'
-    - '127.0.0.1:28961'
-    - '127.0.0.1:28962'
-    - '127.0.0.1:28963'
-    - '127.0.0.1:28964'
-    - '127.0.0.1:28965'
-    - '127.0.0.1:28966'
-    - '127.0.0.1:28967'
-
 api:
-  keys:
+  temp-client-id: mw2_server
+  temp-client-secret: $2a$10$EXjNWSTyNEVgPCRamUyH6eAQyPHQZP3VfV/9F9b.LrNeD.pP2gt5G # BCrypt Password (10 Round)
+  servers: # name = Name of the server | ip = IP of the server | port = Port of the server | hash = name_port -> sha256
     - name: oilrig
-      key: <HIDDEN FROM GITHUB>
+      ip: 127.0.0.1
+      port: 28960
+      hash: 40A40A3A099676C832C2E78688CE37E01FE0A4BF747FACEF2B75D7A58C668903
     - name: highrise
-      key: <HIDDEN FROM GITHUB>
+      ip: 127.0.0.1
+      port: 28961
+      hash: 3454E28910DB9E22BDCB89BB3C9AEAA11724828BC7171FAC5C35B4C6B0ED932B
+  security:
+      header-check:
+        enabled: false
+      public-access:
+        enabled: false
 
 server:
   http2:
@@ -37,7 +36,7 @@ spring:
   datasource:
     url: 'jdbc:mariadb://localhost:3306/localdb?useUnicode'
     username: root
-    password: <HIDDEN FROM GITHUB>
+    password: <HIDDEN FROM GH>
     tomcat:
       connection-properties: useUnicode
     driver-class-name: org.mariadb.jdbc.Driver
@@ -61,7 +60,7 @@ logging:
       springframework:
         web: DEBUG
 
-'!spring':
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
+#'!spring':
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop

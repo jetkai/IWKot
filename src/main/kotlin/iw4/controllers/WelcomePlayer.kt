@@ -3,7 +3,7 @@ package iw4.controllers
 import iw4.database.PlayerRepository
 import iw4.database.request.ModifyPlayerEntity
 import iw4.database.request.PlayerEntityOnMap
-import iw4.utils.yaml.ApiYamlProperties
+import iw4.utils.yaml.ApiProperties
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest
  * @version 1.0, 19/04/2022
  */
 @RestController
-class WelcomePlayer(var playerRepository : PlayerRepository, var properties : ApiYamlProperties) {
+class WelcomePlayer(var playerRepository : PlayerRepository, var properties : ApiProperties) {
 
     /**
      * This function will modify/update the Player within the SQL Database
@@ -47,10 +47,10 @@ class WelcomePlayer(var playerRepository : PlayerRepository, var properties : Ap
         if(name.isEmpty() || guid.isEmpty() || port.isEmpty())
             return ResponseEntity<Any>("400 - BAD REQUEST", HttpStatus.BAD_REQUEST)
 
-        if(!properties.debug) { //Security -> preventing bad clients from connecting
-            val requestKey = request.getHeader("x-crpyt-key")
+        if(properties.security.header_check.enabled) { //Security -> preventing bad clients from connecting
             val userAgent = request.getHeader("User-Agent")
-            val verifiedServer = properties.servers.filter { it.key == requestKey }
+            val requestHash = request.getHeader("x-secret-hash")
+            val verifiedServer = properties.servers.filter { it.port == port.toInt() && it.hash == requestHash }
 
             if (verifiedServer.isEmpty() || !userAgent.equals("Mw2-Server/1.0"))
                 return ResponseEntity<Any>("401 - UNAUTHORIZED", HttpStatus.UNAUTHORIZED)

@@ -13,7 +13,7 @@ import java.net.http.HttpResponse
  * @author Kai
  * @version 1.0, 20/04/2022
  */
-class Mw2HttpClient(private val uri : URI, private val apiKey : String) {
+class Mw2HttpClient(private val uri : URI, private val hash : String) {
 
     private val client = buildClient()
     private val builder = buildHeaders()
@@ -31,7 +31,7 @@ class Mw2HttpClient(private val uri : URI, private val apiKey : String) {
     private fun buildHeaders() : HttpRequest.Builder {
         val builder = HttpRequest.newBuilder()
         builder.header("Content-Type", "application/json")
-        builder.header("x-crypt-key", apiKey)
+        builder.header("x-secret-hash", hash)
         builder.header("User-Agent", "Mw2-Server/1.0")
         return builder
     }

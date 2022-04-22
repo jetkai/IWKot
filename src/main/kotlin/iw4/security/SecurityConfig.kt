@@ -6,25 +6,32 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
+/**
+ * SecurityConfig
+ *
+ * Allows access to mapped directories, specified in the below functions
+ * @see configure
+ *
+ * @author Kai
+ * @version 1.0, 19/04/2022
+ */
 @Configuration
-@EnableWebSecurity
-class SecurityConfig : WebSecurityConfigurerAdapter() {
+@EnableWebSecurity/*(debug = true)*/
+class SecurityConfig(val authenticationProvider : CustomAuthenticationProvider) : WebSecurityConfigurerAdapter() {
 
     @Throws(Exception::class)
-    override fun configure(auth: AuthenticationManagerBuilder) {
-        // authentication manager (see below)
+    override fun configure(authentication : AuthenticationManagerBuilder) {
+        authentication.authenticationProvider(authenticationProvider)
     }
 
     @Throws(Exception::class)
-    override fun configure(http: HttpSecurity) {
-        http.csrf().disable()
-            .authorizeRequests()
-            //.antMatchers("/admin/**").hasRole("ADMIN")
-            //.antMatchers("/anonymous*").anonymous()
+    override fun configure(http : HttpSecurity) {
+        http.authorizeRequests()
             .antMatchers("/api/servers/*/*").permitAll() //Allow anything beyond the API Dir
-            .antMatchers("/api/servers/list").permitAll()
+            .antMatchers("/api/servers/list").hasRole("ADMIN")
             .anyRequest().authenticated()
-            .and()
+            .and().csrf().disable()
+       // http.formLogin().loginPage("/login").permitAll().and().logout().permitAll();
     }
 
 }

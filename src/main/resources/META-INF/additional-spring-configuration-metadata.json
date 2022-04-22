@@ -4,5 +4,10 @@
       "name": "api.servers",
       "type": "java.lang.String",
       "description": "Description for api.servers."
-  }
-] }
+    },
+    {
+      "name": "api.security",
+      "type": "java.lang.Boolean",
+      "description": "Description for api.security."
+    }
+  ] }
