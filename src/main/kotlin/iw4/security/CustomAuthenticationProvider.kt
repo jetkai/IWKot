@@ -32,7 +32,7 @@ class CustomAuthenticationProvider(private final val properties : ApiProperties)
     init {
         if(!publicAccess) {
             //Localhost
-            val localIps = arrayOf("0.0.0.0", "127.0.0.1", "localhost")
+            val localIps = arrayOf("0:0:0:0:0:0:0:1", "0.0.0.0", "127.0.0.1", "localhost")
             this.allowedIps.addAll(localIps)
 
             //Game Servers
@@ -41,12 +41,11 @@ class CustomAuthenticationProvider(private final val properties : ApiProperties)
 
             //Removes duplicates
             this.allowedIps = this.allowedIps.distinct().toMutableList()
-
-            println("Total Ips: ${this.allowedIps.size}")
         }
     }
 
     //Verifies if the remote ip is on the allowedIps list, otherwise throws BadCredentialsException
+    //Using Basic Auth (TEMP) - Updating to OAuth2, once the GSC code has been completed
     @Throws(AuthenticationException::class)
     override fun authenticate(authentication : Authentication) : Authentication {
         val username : String = authentication.name
@@ -55,19 +54,19 @@ class CustomAuthenticationProvider(private final val properties : ApiProperties)
         val clientId = properties.temp_client_id
         val clientSecret = properties.temp_client_secret
 
-        println("Allowed Ips: $allowedIps")
-
         val details = authentication.details as WebAuthenticationDetails
         val ip = details.remoteAddress
 
         if (!allowedIps.contains(ip) && !publicAccess)
             throw BadCredentialsException("Connection refused.")
 
-        if(username == clientId && BCrypt.checkpw(clientSecret, password)) {
+        val isCredentialsValid = (username == clientId && BCrypt.checkpw(password, clientSecret))
+        if(isCredentialsValid) {
             val authorities : MutableList<GrantedAuthority> = ArrayList()
             authorities.add(SimpleGrantedAuthority("ROLE_ADMIN"))
             return UsernamePasswordAuthenticationToken(clientId, clientSecret, authorities)
         }
+
         throw BadCredentialsException("Invalid client / secret.")
     }
 
