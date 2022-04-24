@@ -3,9 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.6.6"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.jetbrains.dokka") version "1.5.31"
-    kotlin("jvm") version "1.5.31"
-    kotlin("plugin.spring") version "1.5.31"
+    id("org.jetbrains.dokka") version "1.6.20"
+    kotlin("jvm") version "1.6.20"
+    kotlin("plugin.spring") version "1.6.20"
 }
 
 group = "iw4"
@@ -25,6 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security:2.6.6")
     implementation("org.springframework.boot:spring-boot-starter-web:2.6.6")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.6")
+    compileOnly("org.springframework.boot:spring-boot-configuration-processor:2.6.6")
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.6.6")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.6.6")
     testImplementation("org.springframework.security:spring-security-test:5.6.2")
@@ -38,13 +39,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     //Required for Dokka
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
-    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.5.31")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
 
     //Required for MariaDB driver
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.0.4")
-
-    compileOnly("org.springframework.boot:spring-boot-configuration-processor:2.6.6")
 }
 
 tasks.withType<KotlinCompile> {

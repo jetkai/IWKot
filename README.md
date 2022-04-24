@@ -5,11 +5,11 @@
 
 ### Project Requirements:
 
-- IntelliJ IDEA 2021.2.2+ (for Kotlin 1.5.31)
-- Gradle 7.4.1
+- IntelliJ IDEA (Version that supports Kotlin 1.6.20)
+- Gradle 7.4.2
 - Spring Boot 2.6.6
 - MariaDB 10.7.1
-- JDK 8 or JDK 11
+- JDK 11
 
 ---
 

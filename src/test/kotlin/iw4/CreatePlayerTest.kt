@@ -30,8 +30,8 @@ class CreatePlayerTest {
         ?.replace("/classes/kotlin/test/iw4/", "/resources/main/")
         ?.substring(1) //Replaces initial "/" char
 
-    //Unique key for the WelcomePlayer Controller (BCrypt)
-    private val apiKey = Path.of(resourcePath + "keys/WelcomePlayer.key").readText()*/
+    //Unique key for the HandleConnection Controller (BCrypt)
+    private val apiKey = Path.of(resourcePath + "keys/HandleConnection.key").readText()*/
 
     @Test
     fun contextLoads() {

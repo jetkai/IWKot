@@ -9,6 +9,9 @@ import java.util.*
  *
  * Uses CrudRepository interface to run query's on the MariaDB
  *
+ * Great ref for findBy/getBy usage (24/04/2022):
+ * https://szymonkrajewski.pl/the-practical-difference-between-findby-and-getby-in-repositories/
+ *
  * @author Kai
  * @version 1.0, 19/04/2022
  */
@@ -24,6 +27,8 @@ interface PlayerRepository : CrudRepository<PlayerEntity, String> {
     fun getByLastSeenAfter(time : Date) : List<PlayerEntity>
 
     fun getByUsernameAndGuid(name : String, guid : String) : PlayerEntity
+
+    fun findByGuidIn(guid : List<String>) : List<PlayerEntity>?
 
 /*    @Modifying
     @Transactional

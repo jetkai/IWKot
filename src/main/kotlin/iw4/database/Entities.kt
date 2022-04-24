@@ -48,6 +48,10 @@ class PlayerEntity {
     @Column(name = "last_server_port", nullable = false)
     var lastServerPort: Int? = null
 
+    @Basic
+    @Column(name = "banned", nullable = false)
+    var isBanned: Boolean ?= null
+
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +
                 "id = $id " +
@@ -58,6 +62,7 @@ class PlayerEntity {
                 "connections = $connections " +
                 "lastMapName = $lastMapName " +
                 "lastServerPort = $lastServerPort " +
+                "banned = $isBanned " +
                 ")"
 
     // constant value returned to avoid entity inequality to itself before and after it's update/merge
@@ -76,6 +81,7 @@ class PlayerEntity {
         if (connections != other.connections) return false
         if (lastMapName != other.lastMapName) return false
         if (lastServerPort != other.lastServerPort) return false
+        if (isBanned != other.isBanned) return false
 
         return true
     }

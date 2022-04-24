@@ -1,7 +1,6 @@
 package iw4.security
 
 import iw4.utils.yaml.ApiProperties
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -19,10 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @Configuration
 @EnableWebSecurity/*(debug = true)*/
-class SecurityConfig(val authenticationProvider : CustomAuthenticationProvider) : WebSecurityConfigurerAdapter() {
-
-    @Autowired
-    lateinit var properties : ApiProperties
+class SecurityConfig(private val authenticationProvider : CustomAuthenticationProvider,
+                     private val properties : ApiProperties) : WebSecurityConfigurerAdapter() {
 
     @Throws(Exception::class)
     override fun configure(authentication : AuthenticationManagerBuilder) {
@@ -36,13 +33,16 @@ class SecurityConfig(val authenticationProvider : CustomAuthenticationProvider) 
                 .antMatchers("/api/servers/*/*").permitAll()
                 .antMatchers("/api/servers/list").permitAll()
                 .anyRequest().authenticated()
+                //Disable CSRF (TEMP)
                 .and().csrf().disable()
         } else {
             http.authorizeRequests()
                 .antMatchers("/api/servers/*/*").hasRole("ADMIN")
                 .antMatchers("/api/servers/list").hasRole("ADMIN")
                 .anyRequest().authenticated()
-                .and().httpBasic() //Using Basic Auth (TEMP) - Updating to OAuth2, once the GSC code has been completed
+                //Using Basic Auth (TEMP) - Updating to OAuth2, once the GSC code has been completed
+                .and().httpBasic()
+                //Disable CSRF (TEMP)
                 .and().csrf().disable()
         }
     }

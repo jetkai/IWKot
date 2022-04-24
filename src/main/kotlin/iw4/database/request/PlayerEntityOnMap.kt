@@ -15,7 +15,7 @@ import iw4.utils.Misc
  * @author Kai
  * @version 1.0, 19/04/2022
  */
-class PlayerEntityOnMap(private var playerRepository : PlayerRepository) {
+class PlayerEntityOnMap(private val playerRepository : PlayerRepository) {
 
     fun listByMap(mapName : String) : List<PlayerEntity> {
         return playerRepository.getByLastMapName(mapName)
