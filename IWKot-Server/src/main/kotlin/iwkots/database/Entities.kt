@@ -13,7 +13,7 @@ import javax.persistence.*
  * @version 1.0, 19/04/2022
  */
 @Entity
-@Table(name = "mw2_welcome", schema = "localdb")
+@Table(name = "iwkot", schema = "localdb")
 class PlayerEntity {
 
     @Id

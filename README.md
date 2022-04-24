@@ -1,4 +1,4 @@
-# MW2-Server-KT
+# IWKot
 #### Under Development - Local Testing Only
 
 ---
@@ -31,7 +31,7 @@
 
 ### LocalDB (SQL Script):
 ```sql
-create table mw2_welcome
+create table iwkot
 (
     id               int        default 0 not null
         primary key,
@@ -43,9 +43,9 @@ create table mw2_welcome
     last_map_name    varchar(32)          not null,
     last_server_port int                  not null,
     banned           tinyint(1) default 0 not null,
-    constraint mw2_welcome_guid_uindex
+    constraint iwkot_guid_uindex
         unique (guid),
-    constraint mw2_welcome_id_uindex
+    constraint iwkot_id_uindex
         unique (id)
 );
 ```
