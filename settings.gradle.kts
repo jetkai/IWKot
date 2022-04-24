@@ -1,1 +1,3 @@
-rootProject.name = "MW2-Server-KT"
+
+rootProject.name = "IWKot"
+include("IWKot-Client")
