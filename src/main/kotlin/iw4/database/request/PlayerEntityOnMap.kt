@@ -17,20 +17,21 @@ import iw4.utils.Misc
  */
 class PlayerEntityOnMap(private val playerRepository : PlayerRepository) {
 
+    //Returns list of players who has joined the map at any point in time
     fun listByMap(mapName : String) : List<PlayerEntity> {
         return playerRepository.getByLastMapName(mapName)
     }
 
-    //Returns list of players who joined the map within the past minute
+    //Returns list of players who joined any map within the past minute
     fun listPlayersByRecentMapJoin(byMinute : Long) : List<PlayerEntity>  {
         val timestamp = Misc.getLocalDateAsTimestamp(byMinute)
         return playerRepository.getByLastSeenAfter(timestamp)
     }
 
     //Returns list of players who joined the map within the past minute
-    fun listByMapDefault(mapName: String) : List<PlayerEntity> {
-        val timestamp = Misc.getLocalDateAsTimestamp()
-        return playerRepository.getByLastMapNameAndLastSeenIsAfter(mapName, timestamp)
+    fun listPlayersByRecentMapJoin(mapName : String, byMinute : Long) : List<PlayerEntity>  {
+        val timestamp = Misc.getLocalDateAsTimestamp(byMinute)
+        return playerRepository.getByLastSeenAfterAndLastMapName(timestamp, mapName)
     }
 
 }

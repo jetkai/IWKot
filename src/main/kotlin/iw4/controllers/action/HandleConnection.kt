@@ -50,7 +50,7 @@ class HandleConnection(playerRepository : PlayerRepository, private val properti
                            @RequestParam(value = "port", required = false, defaultValue = "0") port : Int,
                            request : HttpServletRequest) : ResponseEntity<Any> {
 
-        //TODO clean this up (could use request.headers -> mapSet)
+        //TODO clean this up (could use request.params/variable -> mapSet)
         parameter.mapName = mapName
         parameter.action = action
         parameter.name = name
@@ -116,7 +116,7 @@ class HandleConnection(playerRepository : PlayerRepository, private val properti
             "heartbeat" -> {
                 //newPlayerEntity = the player entity we are going to modify/update
                 val newPlayerEntities = modifyPlayerEntity.getPlayerEntities(parameter.guids)
-                    ?: return ResponseEntity<Any>("204 - No players found", HttpStatus.NO_CONTENT)
+                    ?: return ResponseEntity<Any>("204 - NO PLAYERS FOUND", HttpStatus.NO_CONTENT)
 
                 //Requests to update the existing player in database, or insert new
                 try {

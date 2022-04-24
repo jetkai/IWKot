@@ -22,9 +22,10 @@ interface PlayerRepository : CrudRepository<PlayerEntity, String> {
 
     fun getByLastMapName(map : String) : List<PlayerEntity>
 
-    fun getByLastMapNameAndLastSeenIsAfter(map : String, time : Date) : List<PlayerEntity>
-
     fun getByLastSeenAfter(time : Date) : List<PlayerEntity>
+
+    //fun getByLastMapNameAndLastSeenAfter(mapName : String, time : Date) : List<PlayerEntity>
+    fun getByLastSeenAfterAndLastMapName(time : Date, mapName : String) : List<PlayerEntity> //TODO - Test Query Speed
 
     fun getByUsernameAndGuid(name : String, guid : String) : PlayerEntity
 
