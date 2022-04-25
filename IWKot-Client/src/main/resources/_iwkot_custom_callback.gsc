@@ -8,14 +8,23 @@ init() {
 	level thread onPlayerConnect();
 	
 	level waittill("prematch_over");
-	level.callbackPlayerDisconnect = ::onPlayerDisconnect;
+	//::Callback_PlayerConnect()
+	//level.callbackPlayerDisconnect = ::onPlayerDisconnect;
 }
 
 //Send PlayerJoin request to IWKot-Server
 onPlayerConnect(player) {
 	for(;;) {
-		level waittill("connected", player);	
-		//::Callback_PlayerConnect()
+		level waittill("connected", player);
+
+		//bearer = getDvar( "bearer_token");
+		//hash = getDvar( "maphash");
+
+		mapName = getDvar("mapname");
+		port = getDvar("net_port");
+		//if(isSubstr(player.guid, "bot") || player.pers["isBot"]) //Return if is a Bot
+		//	return
+		logPrint( "++join::mapName=" + mapName + ",name=" + player.name + ",guid=" + player.guid +",port=" + port +"\n");
 	}
 }
 
