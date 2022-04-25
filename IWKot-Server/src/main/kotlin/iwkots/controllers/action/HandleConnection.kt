@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest
 class HandleConnection(playerRepository : PlayerRepository, private val properties : ApiProperties) {
 
     private data class Params(var mapName : String, var action : String, var name : String,
-                              var guid : String, var guids : List<String>, var port : Int)
+                              var guid : String, var guids : List<String>?, var port : Int)
 
     private lateinit var parameter : Params
 
@@ -46,17 +46,12 @@ class HandleConnection(playerRepository : PlayerRepository, private val properti
                            @PathVariable action : String,
                            @RequestParam(value = "name", required = false) name : String,
                            @RequestParam(value = "guid", required = false) guid : String,
-                           @RequestParam(value = "guids", required = false) guids : List<String>,
+                           @RequestParam(value = "guids", required = false) guids : List<String>?,
                            @RequestParam(value = "port", required = false, defaultValue = "0") port : Int,
                            request : HttpServletRequest) : ResponseEntity<Any> {
 
         //TODO clean this up (could use request.params/variable -> mapSet)
-        parameter.mapName = mapName
-        parameter.action = action
-        parameter.name = name
-        parameter.guid = guid
-        parameter.guids = guids
-        parameter.port = port
+        parameter = Params(mapName, action, name, guid, guids, port)
 
         val urlResponse = urlCheck()
         if(urlResponse != null)
@@ -79,7 +74,7 @@ class HandleConnection(playerRepository : PlayerRepository, private val properti
             && (parameter.name.isEmpty() || parameter.guid.isEmpty() || parameter.port == 0)) {
             return ResponseEntity<Any>("400 - BAD REQUEST", HttpStatus.BAD_REQUEST)
         } else if(parameter.action == "heartbeat") { //Heartbeat requires only the guids param
-            if(parameter.guids.isEmpty())
+            if(parameter.guids == null)
                 return ResponseEntity<Any>("400 - BAD REQUEST", HttpStatus.BAD_REQUEST)
         }
         return null
@@ -115,15 +110,17 @@ class HandleConnection(playerRepository : PlayerRepository, private val properti
 
             "heartbeat" -> {
                 //newPlayerEntity = the player entity we are going to modify/update
-                val newPlayerEntities = modifyPlayerEntity.getPlayerEntities(parameter.guids)
-                    ?: return ResponseEntity<Any>("204 - NO PLAYERS FOUND", HttpStatus.NO_CONTENT)
+                if (parameter.guids != null) {
+                    val newPlayerEntities = modifyPlayerEntity.getPlayerEntities(parameter.guids!!)
+                        ?: return ResponseEntity<Any>("204 - NO PLAYERS FOUND", HttpStatus.NO_CONTENT)
 
-                //Requests to update the existing player in database, or insert new
-                try {
-                    modifyPlayerEntity.updateEntities(newPlayerEntities, parameter.mapName)
-                } catch (e : IllegalArgumentException) {
-                    println(e.message) //Failed to update player in DB
-                    return ResponseEntity<Any>("417 - FAILED TO UPDATE ENTITY", HttpStatus.EXPECTATION_FAILED)
+                    //Requests to update the existing player in database, or insert new
+                    try {
+                        modifyPlayerEntity.updateEntities(newPlayerEntities, parameter.mapName)
+                    } catch (e: IllegalArgumentException) {
+                        println(e.message) //Failed to update player in DB
+                        return ResponseEntity<Any>("417 - FAILED TO UPDATE ENTITY", HttpStatus.EXPECTATION_FAILED)
+                    }
                 }
             }
         }

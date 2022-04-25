@@ -33,7 +33,7 @@
 ```sql
 create table iwkot
 (
-    id               int        default 0 not null
+    id               int auto_increment
         primary key,
     username         varchar(64)          not null,
     guid             varchar(128)         not null,
@@ -47,5 +47,6 @@ create table iwkot
         unique (guid),
     constraint iwkot_id_uindex
         unique (id)
-);
+)
+    auto_increment = 1;
 ```

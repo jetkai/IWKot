@@ -81,6 +81,7 @@ class ModifyPlayerEntity(private val playerRepository : PlayerRepository) {
         welcomeEntity.lastSeen = currentTime
         welcomeEntity.lastMapName = "Default"
         welcomeEntity.lastServerPort = 28960
+        welcomeEntity.isBanned = false
         return welcomeEntity
     }
 

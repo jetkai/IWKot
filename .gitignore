@@ -26,6 +26,7 @@ bin/
 *.iml
 *.ipr
 *.key
+*.zip
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/

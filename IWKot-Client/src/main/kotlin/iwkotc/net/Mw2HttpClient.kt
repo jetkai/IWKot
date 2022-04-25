@@ -18,10 +18,15 @@ class Mw2HttpClient(private val uri : URI, private val hash : String) {
     private val client = buildClient()
     private val builder = buildHeaders()
 
-    fun requestBody() : String {
-        println("URI: $uri")
+    var responseBody : String ?= null
+    var responseCode : Int ?= -1
+
+    fun request() : Mw2HttpClient {
         val request = builder.uri(uri).build()
-        return client.send(request, HttpResponse.BodyHandlers.ofString()).body()
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        responseBody = response.body()
+        responseCode = response.statusCode()
+        return this
     }
 
     private fun buildClient(): HttpClient {
@@ -32,6 +37,8 @@ class Mw2HttpClient(private val uri : URI, private val hash : String) {
         val builder = HttpRequest.newBuilder()
         builder.header("Content-Type", "application/json")
         builder.header("x-secret-hash", hash)
+        //Basic Auth (Temp) -> Switching to OAuth2
+        builder.header("Authorization", "Basic bXcyX3NlcnZlcjpNVzJTRVJWRVI=") //Nothing interesting here
         builder.header("User-Agent", "Mw2-Server/1.0")
         return builder
     }
