@@ -1,5 +1,11 @@
 package iwkotc.tailer.parser
 
+/**
+ * IW4x
+ *
+ * @author Kai
+ * @version 1.0, 01/05/2022
+ */
 class IW4x {
 
     fun parse(line : String): IW4xData? {

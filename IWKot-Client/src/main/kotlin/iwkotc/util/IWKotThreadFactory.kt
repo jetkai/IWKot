@@ -4,28 +4,23 @@ import java.util.*
 import java.util.concurrent.ThreadFactory
 
 /**
+ * IWKotThreadFactory
+ *
  * @author Kai
+ * @version 1.0, 01/05/2022
  */
 class IWKotThreadFactory (private val name : String) : ThreadFactory {
 
     private val threads : MutableList<Thread> = LinkedList()
 
-    //Creates a new thread
     override fun newThread(r: Runnable?): Thread {
         val thread = Thread(r)
         threads.add(thread)
-        println("\rTotal Threads: "+threads.size)
-        thread.uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { _: Thread?, _: Throwable?
-            -> println("[ALERT] ONE OF THE PROXY THREADS HAVE CRASHED") }
+        thread.uncaughtExceptionHandler =
+            Thread.UncaughtExceptionHandler {
+                    t : Thread, _: Throwable -> println("Thread-${t.id}. has died.")
+            }
         return thread
-    }
-
-    fun interruptThread(thread : Thread) {
-        thread.interrupt()
-    }
-
-    fun interruptAllThreads() {
-        threads.forEach { thread -> thread.interrupt() }
     }
 
 }

@@ -1,11 +1,17 @@
 package iwkotc.tailer
 
-import iwkotc.command.SendConnection
+import iwkotc.reflection.Factory
 import iwkotc.tailer.parser.IW4x
 import org.apache.commons.io.input.Tailer
 import org.apache.commons.io.input.TailerListenerAdapter
 import java.io.File
 
+/**
+ * ApacheTailer
+ *
+ * @author Kai
+ * @version 1.0, 01/05/2022
+ */
 class ApacheTailer(filePath : String) {
 
     private val parser = IW4x()
@@ -26,13 +32,9 @@ class ApacheTailer(filePath : String) {
     override fun handle(line : String) {
         try {
             val parsedLine = parser.parse(line)
-            if (parsedLine != null) {
+            if (parsedLine?.payload?.command?.isNotEmpty() == true) {
                 println(parsedLine) //Debugging
-
-                //TODO - Temp, use reflection to clean this up
-                if(parsedLine.payload.command == "join") {
-                    SendConnection(parsedLine.payload).execute()
-                }
+                Factory.commandHookMap[parsedLine.payload.command]?.execute(parsedLine.payload)
             }
         } catch (e : Exception) {
             e.printStackTrace()

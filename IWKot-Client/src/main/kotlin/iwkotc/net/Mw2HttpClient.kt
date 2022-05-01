@@ -13,7 +13,7 @@ import java.net.http.HttpResponse
  * @author Kai
  * @version 1.0, 24/04/2022
  */
-class Mw2HttpClient(private val uri : URI, private val hash : String) {
+class Mw2HttpClient(private val uri : URI, private val hash : String, private val auth : String) {
 
     private val client = buildClient()
     private val builder = buildHeaders()
@@ -37,10 +37,10 @@ class Mw2HttpClient(private val uri : URI, private val hash : String) {
         val builder = HttpRequest.newBuilder()
         builder.header("Content-Type", "application/json")
         builder.header("x-secret-hash", hash)
-        //Basic Auth (Temp) -> Switching to OAuth2
-        builder.header("Authorization", "Basic bXcyX3NlcnZlcjpNVzJTRVJWRVI=") //Nothing interesting here
+        builder.header("Authorization", auth)
         builder.header("User-Agent", "Mw2-Server/1.0")
         return builder
     }
+
 
 }

@@ -15,6 +15,7 @@ repositories {
 dependencies {
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.springframework:spring-web:5.3.19")
+    implementation("org.reflections:reflections:0.10.2")
     testImplementation(kotlin("test"))
 }
 
