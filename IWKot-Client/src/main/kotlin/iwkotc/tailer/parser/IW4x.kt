@@ -8,7 +8,7 @@ package iwkotc.tailer.parser
  */
 class IW4x {
 
-    fun parse(line : String): IW4xData? {
+    fun parse(line : String) : IW4xData? {
 
       //  var lineNumber : Long
         val lineText : String
@@ -50,5 +50,3 @@ class IW4x {
 }
 
 data class IW4xData(val lineText : String, val payload : IWKotPayload)
-
-data class IWKotPayload(var command : String, var data : String)

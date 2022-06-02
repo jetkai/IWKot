@@ -12,12 +12,12 @@ import java.lang.reflect.Modifier
  */
 object Factory {
 
-    val commandHookMap: HashMap<String, CommandHook> = HashMap()
+    val commandHookMap : HashMap<String, CommandHook> = HashMap()
 
     private val classes : HashMap<String, Reflection> = HashMap()
 
     fun init() {
-        val reflectionClasses: Set<Class<out Reflection>> =
+        val reflectionClasses : Set<Class<out Reflection>> =
             Reflections("iwkotc.command").getSubTypesOf(Reflection::class.java)
         for (clazz in reflectionClasses) {
             if (Modifier.isAbstract(clazz.modifiers))

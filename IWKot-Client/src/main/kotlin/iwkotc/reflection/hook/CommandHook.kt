@@ -10,6 +10,6 @@ import iwkotc.tailer.parser.IWKotPayload
  */
 interface CommandHook {
 
-    fun execute(payload : IWKotPayload): Boolean
+    fun execute(payload : IWKotPayload) : Boolean
 
 }

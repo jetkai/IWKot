@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadFactory
  * @author Kai
  * @version 1.0, 01/05/2022
  */
-class IWKotThreadFactory (private val name : String) : ThreadFactory {
+class IWKotThreadFactory : ThreadFactory {
 
     private val threads : MutableList<Thread> = LinkedList()
 
@@ -18,7 +18,7 @@ class IWKotThreadFactory (private val name : String) : ThreadFactory {
         threads.add(thread)
         thread.uncaughtExceptionHandler =
             Thread.UncaughtExceptionHandler {
-                    t : Thread, _: Throwable -> println("Thread-${t.id}. has died.")
+                    t : Thread, _: Throwable -> println("Thread-${t.id} has died.")
             }
         return thread
     }

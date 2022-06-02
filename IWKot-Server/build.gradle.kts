@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.6.6"
+    id("org.springframework.boot") version "2.6.7"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.jetbrains.dokka") version "1.6.20"
-    kotlin("jvm") version "1.6.20"
-    kotlin("plugin.spring") version "1.6.20"
+    id("org.jetbrains.dokka") version "1.6.21"
+    kotlin("jvm") version "1.6.21"
+    kotlin("plugin.spring") version "1.6.21"
 }
 
 group = "iw4"
@@ -22,13 +22,13 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 
     //Required for Spring Web
-    implementation("org.springframework.boot:spring-boot-starter-security:2.6.6")
-    implementation("org.springframework.boot:spring-boot-starter-web:2.6.6")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.6")
-    compileOnly("org.springframework.boot:spring-boot-configuration-processor:2.6.6")
-    developmentOnly("org.springframework.boot:spring-boot-devtools:2.6.6")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.6.6")
-    testImplementation("org.springframework.security:spring-security-test:5.6.2")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test:5.6.3")
 
     //Required for Serializing/Deserializing
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
@@ -39,7 +39,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     //Required for Dokka
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
 
     //Required for MariaDB driver
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.0.4")
